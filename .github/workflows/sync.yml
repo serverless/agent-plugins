@@ -1,0 +1,90 @@
+name: Sync and release
+
+# Copies the skill from the latest Serverless Framework release and, when the
+# skill changed, commits a new plugin version to main. Then makes sure the
+# version on main is tagged and has a GitHub Release with the plugin as a ZIP
+# file. Every step creates only what is missing, so a run that stopped halfway
+# is completed by the next one.
+
+on:
+  schedule:
+    - cron: '17 * * * *'
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Framework release tag to sync from, such as sf-core@4.46.0. Default: the latest release.'
+        required: false
+        type: string
+
+concurrency:
+  group: sync
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    name: Sync from the Framework release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+          fetch-depth: 0
+          # The token is handed only to the steps that publish.
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+
+      - name: Sync the skill
+        id: sync
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          TAG: ${{ inputs.tag }}
+        run: |
+          if [ -n "$TAG" ]; then
+            node scripts/sync-skills.mjs --tag "$TAG"
+          else
+            node scripts/sync-skills.mjs
+          fi
+
+      - name: Test and validate
+        run: |
+          node --test "scripts/test/*.test.mjs"
+          base="$(git describe --tags --abbrev=0 --match 'v*' 2>/dev/null || true)"
+          if [ -n "$base" ]; then
+            node scripts/validate.mjs --base "$base"
+          else
+            node scripts/validate.mjs
+          fi
+          node scripts/sync-skills.mjs --check
+          # Pinned: this job can publish, so it runs only a known version.
+          npm install --global @anthropic-ai/claude-code@2.1.328
+          claude plugin validate --strict --profile directory .
+
+      - name: Commit the new version
+        if: steps.sync.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SOURCE_TAG: ${{ steps.sync.outputs.tag }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add skills skills.source.json CHANGELOG.md plugin.json .claude-plugin/plugin.json .codex-plugin/plugin.json gemini-extension.json
+          git commit --message "feat: skill from Serverless Framework ${SOURCE_TAG#sf-core@}"
+          git push "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:main
+
+      - name: Tag and release the version on main
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          node scripts/release.mjs

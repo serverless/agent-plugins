@@ -1,0 +1,16 @@
+{
+  "name": "serverless",
+  "description": "The Serverless Framework agent plugin.",
+  "owner": {
+    "name": "Serverless, Inc.",
+    "url": "https://www.serverless.com"
+  },
+  "plugins": [
+    {
+      "name": "serverless",
+      "source": "./",
+      "description": "The Serverless Framework skill for AI coding agents: build, deploy and operate applications on AWS Lambda with serverless.yml and the serverless CLI.",
+      "category": "development"
+    }
+  ]
+}

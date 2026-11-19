@@ -1,0 +1,27 @@
+{
+  "name": "serverless",
+  "displayName": "Serverless Framework",
+  "version": "0.0.1",
+  "description": "The Serverless Framework skill for AI coding agents: build, deploy and operate applications on AWS Lambda with serverless.yml and the serverless CLI.",
+  "author": {
+    "name": "Serverless, Inc.",
+    "url": "https://www.serverless.com"
+  },
+  "homepage": "https://www.serverless.com/framework/docs/guides/agent-skills",
+  "repository": "https://github.com/serverless/agent-plugins",
+  "license": "MIT",
+  "keywords": [
+    "serverless",
+    "serverless-framework",
+    "aws",
+    "aws-lambda",
+    "lambda",
+    "deploy",
+    "infrastructure-as-code"
+  ],
+  "icon": "./assets/icon.png",
+  "documentationUrl": "https://www.serverless.com/framework/docs/guides/agent-skills",
+  "supportUrl": "https://www.serverless.com/support",
+  "privacyPolicyUrl": "https://www.serverless.com/legal/privacy",
+  "termsOfServiceUrl": "https://www.serverless.com/legal/terms"
+}

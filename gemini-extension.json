@@ -1,0 +1,5 @@
+{
+  "name": "serverless",
+  "version": "0.0.1",
+  "description": "The Serverless Framework skill for AI coding agents: build, deploy and operate applications on AWS Lambda with serverless.yml and the serverless CLI."
+}

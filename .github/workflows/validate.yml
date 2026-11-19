@@ -1,0 +1,49 @@
+name: Validate
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate the plugin
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+
+      - name: Run the script tests
+        run: node --test "scripts/test/*.test.mjs"
+
+      - name: Validate the repository
+        run: |
+          # A change to the skill or a manifest since the last released
+          # version needs a higher version.
+          base="$(git describe --tags --abbrev=0 --match 'v*' 2>/dev/null || true)"
+          if [ -n "$base" ]; then
+            node scripts/validate.mjs --base "$base"
+          else
+            node scripts/validate.mjs
+          fi
+
+      - name: Check that the skill equals its Framework release
+        run: node scripts/sync-skills.mjs --check
+
+      - name: Validate with Claude Code
+        # The newest validator, so a new rule of the plugin directory shows
+        # up here first. This job holds no write access.
+        run: |
+          npm install --global @anthropic-ai/claude-code@latest
+          claude --version
+          claude plugin validate --strict --profile directory .

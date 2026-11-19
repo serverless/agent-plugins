@@ -1,0 +1,42 @@
+{
+  "name": "serverless",
+  "version": "0.0.1",
+  "description": "The Serverless Framework skill for AI coding agents: build, deploy and operate applications on AWS Lambda with serverless.yml and the serverless CLI.",
+  "author": {
+    "name": "Serverless, Inc.",
+    "url": "https://www.serverless.com"
+  },
+  "homepage": "https://www.serverless.com/framework/docs/guides/agent-skills",
+  "repository": "https://github.com/serverless/agent-plugins",
+  "license": "MIT",
+  "keywords": [
+    "serverless",
+    "serverless-framework",
+    "aws",
+    "aws-lambda",
+    "lambda",
+    "deploy",
+    "infrastructure-as-code"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Serverless Framework",
+    "shortDescription": "Deploy serverless apps on AWS",
+    "longDescription": "Gives your agent the Serverless Framework skill: how to write serverless.yml, deploy and operate services on AWS with the serverless CLI, develop against live AWS events, and read the documentation that ships with the CLI. In a project, the skill has the agent run \"serverless agent setup\", which adds the feature skills for Dev Mode, MCP servers on AWS Lambda, sandboxes and upgrades to v4.",
+    "developerName": "Serverless, Inc.",
+    "category": "Developer Tools",
+    "capabilities": [],
+    "websiteURL": "https://www.serverless.com",
+    "supportURL": "https://www.serverless.com/support",
+    "privacyPolicyURL": "https://www.serverless.com/legal/privacy",
+    "termsOfServiceURL": "https://www.serverless.com/legal/terms",
+    "defaultPrompt": [
+      "Create a Serverless Framework service with an HTTP API and a DynamoDB table",
+      "Deploy this service to a dev stage and show me its endpoints",
+      "Find out why my last serverless deploy failed"
+    ],
+    "brandColor": "#FD5750",
+    "composerIcon": "./assets/icon.png",
+    "logo": "./assets/icon.png"
+  }
+}

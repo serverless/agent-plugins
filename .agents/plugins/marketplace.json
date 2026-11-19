@@ -1,0 +1,20 @@
+{
+  "name": "serverless",
+  "interface": {
+    "displayName": "Serverless Framework"
+  },
+  "plugins": [
+    {
+      "name": "serverless",
+      "source": {
+        "source": "local",
+        "path": "./"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}
