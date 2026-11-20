@@ -64,10 +64,10 @@ gemini extensions install https://github.com/serverless/agent-plugins
 
 ### Other agents
 
-For any agent that reads [Agent Skills](https://agentskills.io), this command copies the skill into the skill folders of the agents it finds on your machine:
+For any agent that reads [Agent Skills](https://agentskills.io), this command copies the skill into the user-level skill folders of the agents you choose:
 
 ```bash
-npx skills add serverless/agent-plugins
+npx skills add serverless/agent-plugins --global
 ```
 
 ## What the skill covers
