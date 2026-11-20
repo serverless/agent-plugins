@@ -22,6 +22,12 @@ Then install the plugin from it:
 claude plugin install serverless@serverless
 ```
 
+Claude Code doesn't update plugins from this marketplace on its own. To get each new version of the skill when it's released, turn on auto-update: run `/plugin` in Claude Code, open the **Marketplaces** tab, select **serverless**, and turn auto-update on. To update by hand:
+
+```bash
+claude plugin update serverless@serverless
+```
+
 ### Codex
 
 Add this repository as a plugin marketplace:
