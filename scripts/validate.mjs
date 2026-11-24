@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 // Checks that this repository is a valid, publishable plugin. Run as
 // `node scripts/validate.mjs [--base <git ref>]`; exits 1 and lists what is
-// wrong. With --base it also requires a new version whenever the skills or a
-// manifest changed since that ref.
+// wrong. With --base it also requires a new version whenever the skills, the
+// assets or a manifest changed since that ref.
 import { execFileSync } from 'node:child_process'
 import { lstat, readFile } from 'node:fs/promises'
 import path from 'node:path'
@@ -299,7 +299,10 @@ const isHigher = (version, than) => {
   return false
 }
 
-/** A change to the skills or a manifest since `base` needs a higher version. */
+/**
+ * A change to the skills, the assets or a manifest since `base` needs a higher
+ * version: directories and agents keep the copy of each version they have.
+ */
 const checkVersionBump = async (root, base, errors) => {
   try {
     git(root, 'rev-parse', '--verify', '--quiet', `${base}^{commit}`)
@@ -314,6 +317,7 @@ const checkVersionBump = async (root, base, errors) => {
     base,
     '--',
     'skills',
+    'assets',
     ...VERSIONED_MANIFESTS,
     ...MARKETPLACES,
   )

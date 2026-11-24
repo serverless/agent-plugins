@@ -28,7 +28,7 @@ node scripts/sync-skills.mjs --check
 
 ## Versions
 
-Every manifest carries the same version. A change to a manifest or to a marketplace file needs a higher patch version in all of them, and an entry in `CHANGELOG.md`. A sync that changes a skill raises the minor version by itself. Once a version reaches `main`, the "Sync and release" workflow tags it and creates its GitHub Release.
+Every manifest carries the same version. A change to a manifest, a marketplace file or `assets/` (such as the icon) needs a higher patch version in all of them, and an entry in `CHANGELOG.md`. A sync that changes a skill raises the minor version by itself. Once a version reaches `main`, the "Sync and release" workflow tags it and creates its GitHub Release.
 
 ## Not accepted
 
