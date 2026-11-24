@@ -15,7 +15,15 @@ import {
   pickLatestReleaseTag,
   sync,
 } from '../sync-skills.mjs'
-import { SKILL_MD, git, makeRepo, readJson, write } from './helpers.mjs'
+import {
+  FEATURE_SKILLS,
+  SKILL_MD,
+  git,
+  makeRepo,
+  readJson,
+  write,
+  writeSkills,
+} from './helpers.mjs'
 
 const TAG = 'sf-core@4.47.0'
 const COMMIT = 'a'.repeat(40)
@@ -24,9 +32,8 @@ let root, sourceDir, source
 beforeEach(async () => {
   root = await makeRepo()
   sourceDir = await mkdtemp(path.join(tmpdir(), 'source-'))
-  // The same skill the fixture repo holds.
-  await write(sourceDir, 'skills/serverless-framework/SKILL.md', SKILL_MD)
-  await write(sourceDir, 'skills/serverless-framework/references/a.md', '# A\n')
+  // The same skills the fixture repo holds.
+  await writeSkills(sourceDir)
   source = { dir: sourceDir, tag: TAG, commit: COMMIT }
 })
 afterEach(async () => {
@@ -37,8 +44,8 @@ afterEach(async () => {
 const repoState = async () =>
   (await listFiles(root)).filter((file) => !file.path.startsWith('.git/'))
 
-test('the plugin carries the serverless-framework skill from serverless/serverless', () => {
-  assert.deepEqual(SKILLS, ['serverless-framework'])
+test('the plugin carries every skill the Framework CLI bundles, from serverless/serverless', () => {
+  assert.deepEqual(SKILLS, ['serverless-framework', ...FEATURE_SKILLS])
   assert.equal(SOURCE_REPO, 'serverless/serverless')
 })
 
@@ -79,7 +86,7 @@ test('a changed skill is copied, versioned and recorded', async () => {
   const changelog = await readFile(path.join(root, 'CHANGELOG.md'), 'utf8')
   assert.ok(
     changelog.startsWith(
-      '# Changelog\n\n## 1.1.0\n\nSkill from Serverless Framework 4.47.0 (`sf-core@4.47.0`).\n\n## 1.0.0\n',
+      '# Changelog\n\n## 1.1.0\n\nSkills from Serverless Framework 4.47.0 (`sf-core@4.47.0`).\n\n## 1.0.0\n',
     ),
     changelog,
   )
@@ -91,7 +98,10 @@ test('a file removed upstream is removed here', async () => {
   assert.deepEqual(result.files, ['skills/serverless-framework/references/a.md'])
   assert.deepEqual(
     (await listFiles(path.join(root, 'skills'))).map((file) => file.path),
-    ['serverless-framework/SKILL.md'],
+    [
+      'serverless-framework/SKILL.md',
+      ...FEATURE_SKILLS.map((name) => `${name}/SKILL.md`),
+    ].sort(),
   )
 })
 

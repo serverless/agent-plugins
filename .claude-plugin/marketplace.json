@@ -9,7 +9,7 @@
     {
       "name": "serverless",
       "source": "./",
-      "description": "The Serverless Framework skill for AI coding agents: build, deploy and operate applications on AWS Lambda with serverless.yml and the serverless CLI.",
+      "description": "Serverless Framework skills for AI coding agents: build, deploy and operate applications on AWS Lambda with serverless.yml and the serverless CLI, with Dev Mode, MCP servers, sandboxes and upgrades to v4.",
       "category": "development"
     }
   ]

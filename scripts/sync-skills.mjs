@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-// Copies the plugin's skills from a release of serverless/serverless.
+// Copies the plugin's skills from a release of serverless/serverless: every
+// skill the Framework CLI bundles.
 //
 //   node scripts/sync-skills.mjs                  sync from the latest release
 //   node scripts/sync-skills.mjs --tag <tag>      sync from that release tag
@@ -19,7 +20,13 @@ import { bump, readVersions, setVersion } from './lib/manifests.mjs'
 import { diffFolders } from './lib/tree.mjs'
 
 export const SOURCE_REPO = 'serverless/serverless'
-export const SKILLS = ['serverless-framework']
+export const SKILLS = [
+  'serverless-framework',
+  'serverless-dev-mode',
+  'serverless-mcp',
+  'serverless-sandboxes',
+  'serverless-upgrade',
+]
 const SOURCE_FILE = 'skills.source.json'
 const TAG_PREFIX = 'sf-core@'
 
@@ -137,7 +144,7 @@ const addChangelogEntry = async (root, version, tag) => {
     /* first entry */
   }
   const release = tag.startsWith(TAG_PREFIX) ? tag.slice(TAG_PREFIX.length) : tag
-  const entry = `## ${version}\n\nSkill from Serverless Framework ${release} (\`${tag}\`).\n`
+  const entry = `## ${version}\n\nSkills from Serverless Framework ${release} (\`${tag}\`).\n`
   await writeFile(
     changelogPath,
     `${title}\n\n${entry}${rest ? `\n${rest}` : ''}`,

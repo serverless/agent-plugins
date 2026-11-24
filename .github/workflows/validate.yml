@@ -28,7 +28,7 @@ jobs:
 
       - name: Validate the repository
         run: |
-          # A change to the skill or a manifest since the last released
+          # A change to the skills or a manifest since the last released
           # version needs a higher version.
           base="$(git describe --tags --abbrev=0 --match 'v*' 2>/dev/null || true)"
           if [ -n "$base" ]; then
@@ -37,7 +37,7 @@ jobs:
             node scripts/validate.mjs
           fi
 
-      - name: Check that the skill equals its Framework release
+      - name: Check that the skills equal their Framework release
         run: node scripts/sync-skills.mjs --check
 
       - name: Validate with Claude Code

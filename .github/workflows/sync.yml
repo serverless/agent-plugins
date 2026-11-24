@@ -1,6 +1,6 @@
 name: Sync and release
 
-# Copies the skill from the latest Serverless Framework release and, when the
+# Copies the skills from the latest Serverless Framework release and, when a
 # skill changed, commits a new plugin version to main. Then makes sure the
 # version on main is tagged and has a GitHub Release with the plugin as a ZIP
 # file. Every step creates only what is missing, so a run that stopped halfway
@@ -43,7 +43,7 @@ jobs:
         with:
           node-version: 24
 
-      - name: Sync the skill
+      - name: Sync the skills
         id: sync
         env:
           GITHUB_TOKEN: ${{ github.token }}
@@ -78,7 +78,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add skills skills.source.json CHANGELOG.md plugin.json .claude-plugin/plugin.json .codex-plugin/plugin.json gemini-extension.json
-          git commit --message "feat: skill from Serverless Framework ${SOURCE_TAG#sf-core@}"
+          git commit --message "feat: skills from Serverless Framework ${SOURCE_TAG#sf-core@}"
           git push "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:main
 
       - name: Tag and release the version on main
