@@ -190,6 +190,14 @@ test('a changed skill with a new version passes', async () => {
   assert.deepEqual(await validate(root, { base: 'HEAD~1' }), [])
 })
 
+test('a changed icon needs a new version', async () => {
+  // Directories and agents keep the cached copy of a version, so a new logo
+  // reaches users only with a new version.
+  await write(root, 'assets/icon.png', 'new png')
+  git(root, 'commit', '-q', '-am', 'new icon')
+  await assertOneError('version', { base: 'HEAD~1' })
+})
+
 test('a README change needs no new version', async () => {
   await write(root, 'README.md', `${README}\nMore.\n`)
   git(root, 'commit', '-q', '-am', 'docs')
