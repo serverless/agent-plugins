@@ -42,6 +42,12 @@ Then install the plugin from it:
 codex plugin add serverless@serverless
 ```
 
+Codex checks this marketplace for a new plugin version when a session starts. To update right away, refresh the marketplace, which also updates the installed plugin, then start a new Codex session:
+
+```bash
+codex plugin marketplace upgrade serverless
+```
+
 ### GitHub Copilot CLI
 
 Add this repository as a plugin marketplace:
