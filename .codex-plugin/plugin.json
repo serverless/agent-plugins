@@ -1,7 +1,7 @@
 {
   "name": "serverless",
-  "version": "0.0.1",
-  "description": "The Serverless Framework skill for AI coding agents: build, deploy and operate applications on AWS Lambda with serverless.yml and the serverless CLI.",
+  "version": "1.0.0",
+  "description": "Serverless Framework skills for AI coding agents: build, deploy and operate applications on AWS Lambda with serverless.yml and the serverless CLI, with Dev Mode, MCP servers, sandboxes and upgrades to v4.",
   "author": {
     "name": "Serverless, Inc.",
     "url": "https://www.serverless.com"
@@ -22,7 +22,7 @@
   "interface": {
     "displayName": "Serverless Framework",
     "shortDescription": "Deploy serverless apps on AWS",
-    "longDescription": "Gives your agent the Serverless Framework skill: how to write serverless.yml, deploy and operate services on AWS with the serverless CLI, develop against live AWS events, and read the documentation that ships with the CLI. In a project, the skill has the agent run \"serverless agent setup\", which adds the feature skills for Dev Mode, MCP servers on AWS Lambda, sandboxes and upgrades to v4.",
+    "longDescription": "Gives your agent the Serverless Framework skills: how to write serverless.yml, deploy and operate services on AWS with the serverless CLI, and read the documentation that ships with the CLI, plus one skill per feature: Dev Mode for running a deployed stage's functions locally against live AWS events, MCP servers on AWS Lambda, sandboxes for untrusted or AI-generated code, and upgrades from v1-v3 to v4.",
     "developerName": "Serverless, Inc.",
     "category": "Developer Tools",
     "capabilities": [],

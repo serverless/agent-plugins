@@ -52,6 +52,33 @@ metadata:
 # Serverless Framework
 `
 
+/** A minimal SKILL.md for one of the feature skills the plugin carries. */
+export const featureSkillMd = (name) => `---
+name: ${name}
+description: The ${name} skill, for tests.
+metadata:
+  managed-by: serverless-framework
+  version: '1'
+---
+
+# ${name}
+`
+
+export const FEATURE_SKILLS = [
+  'serverless-dev-mode',
+  'serverless-mcp',
+  'serverless-sandboxes',
+  'serverless-upgrade',
+]
+
+/** Write every skill the plugin carries into `root`, as a release has them. */
+export const writeSkills = async (root) => {
+  await write(root, 'skills/serverless-framework/SKILL.md', SKILL_MD)
+  await write(root, 'skills/serverless-framework/references/a.md', '# A\n')
+  for (const name of FEATURE_SKILLS)
+    await write(root, `skills/${name}/SKILL.md`, featureSkillMd(name))
+}
+
 const common = {
   name: 'serverless',
   version: '1.0.0',
@@ -102,8 +129,7 @@ export const makeRepo = async () => {
     tag: 'sf-core@4.46.0',
     commit: '0'.repeat(40),
   })
-  await write(root, 'skills/serverless-framework/SKILL.md', SKILL_MD)
-  await write(root, 'skills/serverless-framework/references/a.md', '# A\n')
+  await writeSkills(root)
   await write(root, 'assets/icon.png', 'png')
   await write(root, 'README.md', README)
   await write(root, 'LICENSE', 'MIT License\n')
